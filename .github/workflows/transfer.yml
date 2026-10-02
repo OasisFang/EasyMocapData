@@ -1,0 +1,22 @@
+name: GDrive to Release
+
+on:
+  workflow_dispatch: # 支持手动一键触发
+
+permissions:
+  contents: write
+
+jobs:
+  transfer:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download from Google Drive
+        run: |
+          pip install gdown
+          gdown 1AxvwcDgRm1zX7UVBojWRwZbBX7YMikXJ -O zju-ls-feng.zip
+
+      - name: Upload to GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create v1.0 zju-ls-feng.zip --title "v1.0" --notes "AutoDL Transfer"
